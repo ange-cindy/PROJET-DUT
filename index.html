@@ -1,614 +1,592 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VitalAir — Réseau capteurs Hôpital</title>
+
+<title>VitalAir - Réseau capteurs Hôpital</title>
+
 <style>
-:root {
-  --sidebar-bg: #0e3a32;
-  --sidebar-bg-active: #154a40;
-  --sidebar-text: #bcd8cf;
-  --sidebar-text-dim: #7fa89a;
-  --accent-teal: #1f9d7c;
-  --bg-main: #eef1ee;
-  --card-bg: #ffffff;
-  --text-dark: #14201c;
-  --text-muted: #6b7a74;
-  --red: #d64545;
-  --red-bg: #fbe7e6;
-  --orange: #d98a2b;
-  --orange-bg: #fbeed8;
-  --green: #2f9e63;
-  --green-bg: #e3f3e8;
-  --blue: #2f6fd9;
-  --pink: #c23b6e;
-  --border: #e2e6e3;
-  --radius: 14px;
+
+:root{
+--vert:#0e3a32;
+--accent:#1f9d7c;
+--fond:#eef1ee;
+--blanc:#ffffff;
+--texte:#14201c;
+--gris:#6b7a74;
+--rouge:#d64545;
 }
 
-* { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: var(--bg-main);
-  color: var(--text-dark);
+*{
+box-sizing:border-box;
 }
 
-.app {
-  display: flex;
-  min-height: 100vh;
+
+body{
+
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--fond);
+color:var(--texte);
+
 }
 
-/* ---------- SIDEBAR ---------- */
-.sidebar {
-  width: 236px;
-  flex-shrink: 0;
-  background: var(--sidebar-bg);
-  color: var(--sidebar-text);
-  display: flex;
-  flex-direction: column;
-  padding: 20px 16px;
+
+
+.app{
+
+display:flex;
+min-height:100vh;
+
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 8px 20px;
+
+
+/* MENU */
+
+.sidebar{
+
+width:240px;
+background:var(--vert);
+color:white;
+padding:20px;
+
 }
 
-.brand-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: var(--accent-teal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  flex-shrink: 0;
+
+.sidebar h2{
+
+margin-top:0;
+
 }
 
-.brand-title {
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.2;
+
+.sidebar p{
+
+color:#bcd8cf;
+font-size:13px;
+
 }
 
-.brand-subtitle {
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  color: var(--sidebar-text-dim);
+
+
+.nav-item{
+
+width:100%;
+padding:12px;
+margin:5px 0;
+border:none;
+border-radius:8px;
+background:transparent;
+color:white;
+text-align:left;
+cursor:pointer;
+font-size:15px;
+
 }
 
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 8px;
+
+
+.nav-item:hover,
+.nav-item.active{
+
+background:#154a40;
+
 }
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  text-align: left;
-  padding: 10px 12px;
-  border: none;
-  background: transparent;
-  color: var(--sidebar-text);
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 9px;
-  cursor: pointer;
+
+
+.connexion{
+
+margin-top:40px;
+font-size:14px;
+
 }
 
-.nav-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+
+
+
+/* CONTENU */
+
+.main{
+
+flex:1;
+padding:30px;
+
 }
 
-.nav-item.active {
-  background: var(--sidebar-bg-active);
-  color: #fff;
+
+.main h1{
+
+margin-top:0;
+
 }
 
-.nav-icon {
-  width: 18px;
-  text-align: center;
-  opacity: 0.9;
+
+
+
+/* CARTES */
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+
 }
 
-.sidebar-footer {
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 12.5px;
+
+
+.card{
+
+background:white;
+border-radius:14px;
+padding:20px;
+box-shadow:0 2px 5px #ccc;
+
 }
 
-.footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--sidebar-text-dim);
+
+
+.card h3{
+
+color:var(--gris);
+font-size:14px;
+
 }
 
-.footer-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--red);
-  display: inline-block;
-  margin-right: 6px;
+
+.card p{
+
+font-size:30px;
+font-weight:bold;
+color:var(--accent);
+
 }
 
-.footer-label { flex: 1; }
-.footer-value { color: var(--sidebar-text); font-weight: 600; }
 
-/* ---------- MAIN ---------- */
-.main {
-  flex: 1;
-  padding: 28px 36px 60px;
-  overflow-x: hidden;
+
+/* PAGES */
+
+.cache{
+
+display:none;
+
 }
 
-.topbar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 24px;
-  gap: 20px;
+
+
+#donnees{
+
+background:white;
+padding:20px;
+border-radius:12px;
+
 }
 
-.topbar h1 {
-  margin: 0 0 4px;
-  font-size: 26px;
-  font-weight: 700;
+
+
+
+@media(max-width:800px){
+
+.app{
+
+flex-direction:column;
+
 }
 
-.topbar p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 14px;
+
+.sidebar{
+
+width:100%;
+
 }
 
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+
+.cards{
+
+grid-template-columns:1fr;
+
 }
 
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--red-bg);
-  color: var(--red);
-  font-size: 12.5px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 999px;
+
 }
 
-.pill-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
 
-.clock {
-  font-family: "SF Mono", Consolas, monospace;
-  font-size: 13px;
-  background: #fff;
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: 999px;
-  color: var(--text-dark);
-}
-
-.view.hidden { display: none; }
-
-/* ---------- CARDS ---------- */
-.card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 22px 24px;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 2px rgba(20, 32, 28, 0.04);
-}
-
-.card h3 {
-  margin: 0 0 4px;
-  font-size: 16px;
-}
-
-.muted { color: var(--text-muted); font-size: 13.5px; margin: 0 0 4px; }
-.muted.small { font-size: 12.5px; }
-
-/* ---------- STAT GRID (Accueil) ---------- */
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.stat-card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  box-shadow: 0 1px 2px rgba(20, 32, 28, 0.04);
-}
-
-.stat-label {
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.stat-value.dash { color: var(--green); }
-.stat-value.dash.bad { color: var(--red); }
-
-.stat-total {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-/* ---------- Sensor cards ---------- */
-.sensor-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.sensor-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
-}
-
-.sensor-name { font-weight: 700; font-size: 14px; }
-.sensor-desc { font-size: 12.5px; color: var(--text-muted); }
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-top: 6px;
-  flex-shrink: 0;
-}
-
-.dot-teal { background: var(--accent-teal); }
-.dot-blue { background: var(--blue); }
-.dot-pink { background: var(--pink); }
-.dot-orange { background: var(--orange); }
-
-.footnote {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.footnote code {
-  background: #e5e9e6;
-  padding: 1px 6px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-/* ---------- Dashboard (vide tant que l'API est inaccessible) ---------- */
-.room-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-/* ---------- Historique ---------- */
-.room-select {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #fff;
-  font-size: 13.5px;
-  margin-bottom: 16px;
-  min-width: 160px;
-}
-
-.chart-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.chart-empty {
-  height: 220px;
-}
-
-/* ---------- Alertes ---------- */
-.alert-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.alert-stat-card {
-  border-radius: var(--radius);
-  padding: 20px 22px;
-}
-
-.alert-stat-card.critical { background: var(--red-bg); }
-.alert-stat-card.warning { background: var(--orange-bg); }
-.alert-stat-card.ok { background: var(--green-bg); }
-
-.alert-stat-value { font-size: 26px; font-weight: 700; }
-.alert-stat-card.critical .alert-stat-value { color: var(--red); }
-.alert-stat-card.warning .alert-stat-value { color: var(--orange); }
-.alert-stat-card.ok .alert-stat-value { color: var(--green); }
-
-.alert-stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-
-/* ---------- Responsive ---------- */
-@media (max-width: 1000px) {
-  .stat-grid, .sensor-grid, .chart-grid, .alert-stat-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 700px) {
-  .app { flex-direction: column; }
-  .sidebar { width: 100%; }
-  .stat-grid, .sensor-grid, .chart-grid, .alert-stat-grid { grid-template-columns: 1fr; }
-}
 </style>
+
 </head>
+
+
 <body>
+
+
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M2 12h4l2 7 4-14 2 7h8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="brand-text">
-        <div class="brand-title">VitalAir</div>
-        <div class="brand-subtitle">RÉSEAU CAPTEURS · HÔPITAL</div>
-      </div>
-    </div>
 
-    <nav class="nav">
-      <button class="nav-item active" data-view="accueil">
-        <span class="nav-icon">⌂</span> Accueil
-      </button>
-      <button class="nav-item" data-view="dashboard">
-        <span class="nav-icon">▦</span> Dashboard
-      </button>
-      <button class="nav-item" data-view="historique">
-        <span class="nav-icon">⌁</span> Historique
-      </button>
-      <button class="nav-item" data-view="alertes">
-        <span class="nav-icon">△</span> Alertes
-      </button>
-    </nav>
+<aside class="sidebar">
 
-    <div class="sidebar-footer">
-      <div class="footer-row">
-        <span class="footer-dot" id="connexionDot"></span>
-        <span class="footer-label">Connexion</span>
-        <span class="footer-value">hors ligne</span>
-      </div>
-      <div class="footer-row">
-        <span class="footer-label">Salles</span>
-        <span class="footer-value">05</span>
-      </div>
-      <div class="footer-row">
-        <span class="footer-label">Capteurs / salle</span>
-        <span class="footer-value">04</span>
-      </div>
-    </div>
-  </aside>
+<h2>💚 VitalAir</h2>
 
-  <!-- MAIN -->
-  <main class="main">
+<p>
+RÉSEAU CAPTEURS<br>
+HÔPITAL
+</p>
 
-    <header class="topbar">
-      <div>
-        <h1 id="pageTitle">Accueil</h1>
-        <p id="pageSubtitle">Vue d'ensemble du réseau de capteurs de qualité de l'air — maquette 5 salles.</p>
-      </div>
-      <div class="topbar-right">
-        <span class="pill" id="apiStatusPill">
-          <span class="pill-dot"></span> API inaccessible
-        </span>
-        <span class="clock" id="clock">--:--:--</span>
-      </div>
-    </header>
 
-    <!-- ================= ACCUEIL ================= -->
-    <section class="view" id="view-accueil">
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">Salles surveillées</div>
-          <div class="stat-value">05</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Capteurs actifs</div>
-          <div class="stat-value">20 <span class="stat-total">/ 20</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Salles en état "Bon"</div>
-          <div class="stat-value dash">–</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Alertes actives</div>
-          <div class="stat-value dash bad">–</div>
-        </div>
-      </div>
+<button class="nav-item active" data-page="accueil">
+⌂ Accueil
+</button>
 
-      <div class="card">
-        <h3>Plan des salles</h3>
-        <p class="muted">Cliquez sur une salle pour l'ouvrir dans le Dashboard.</p>
-      </div>
 
-      <div class="card">
-        <h3>Capteurs déployés</h3>
-        <p class="muted">Chaque salle dispose d'un exemplaire de chacun de ces quatre capteurs, relié à un module ESP32 qui transmet les mesures au serveur en HTTPS/JSON.</p>
-        <div class="sensor-grid">
-          <div class="sensor-card">
-            <span class="dot dot-teal"></span>
-            <div>
-              <div class="sensor-name">MQ135</div>
-              <div class="sensor-desc">Indice qualité d'air (gaz / CO₂ équivalent)</div>
-            </div>
-          </div>
-          <div class="sensor-card">
-            <span class="dot dot-blue"></span>
-            <div>
-              <div class="sensor-name">DHT22</div>
-              <div class="sensor-desc">Température &amp; humidité</div>
-            </div>
-          </div>
-          <div class="sensor-card">
-            <span class="dot dot-pink"></span>
-            <div>
-              <div class="sensor-name">PM2.5</div>
-              <div class="sensor-desc">Particules fines en suspension</div>
-            </div>
-          </div>
-          <div class="sensor-card">
-            <span class="dot dot-orange"></span>
-            <div>
-              <div class="sensor-name">COV</div>
-              <div class="sensor-desc">Composés organiques volatils</div>
-            </div>
-          </div>
-        </div>
-      </div>
+<button class="nav-item" data-page="dashboard">
+▦ Dashboard
+</button>
 
-      <p class="footnote">
-        Ce site affiche désormais les données <strong>réelles</strong> envoyées par les ESP32 à l'API Flask
-        (<code>POST /api/mesure</code>). Tant qu'aucun module n'a encore transmis, le serveur peut générer des
-        valeurs de démonstration (mode simulation, voir <code>app.py</code>).
-      </p>
-    </section>
 
-    <!-- ================= DASHBOARD ================= -->
-    <section class="view hidden" id="view-dashboard">
-      <div class="room-cards" id="dashboardRooms"></div>
-    </section>
+<button class="nav-item" data-page="historique">
+⌁ Historique
+</button>
 
-    <!-- ================= HISTORIQUE ================= -->
-    <section class="view hidden" id="view-historique">
-      <select class="room-select" id="historiqueRoomSelect">
-        <option>Chambre 1</option>
-        <option>Chambre 2</option>
-        <option>Chambre 3</option>
-        <option>Chambre 4</option>
-        <option>Salle de soins</option>
-      </select>
 
-      <div class="chart-grid">
-        <div class="card">
-          <h3>Indice qualité d'air — MQ135</h3>
-          <p class="muted small">Échelle relative 0–1000 (seuils : Bon &lt; 400, Modéré 400–700, Mauvais &gt; 700)</p>
-          <div class="chart-empty"></div>
-        </div>
-        <div class="card">
-          <h3>Température &amp; humidité — DHT22</h3>
-          <p class="muted small">°C (axe gauche) et %RH (axe droit)</p>
-          <div class="chart-empty"></div>
-        </div>
-        <div class="card">
-          <h3>Particules fines — PM2.5</h3>
-          <p class="muted small">µg/m³ (seuils : Bon &lt; 15, Modéré 15–35, Mauvais &gt; 35)</p>
-          <div class="chart-empty"></div>
-        </div>
-        <div class="card">
-          <h3>Composés organiques volatils — COV</h3>
-          <p class="muted small">ppb (seuils : Bon &lt; 220, Modéré 220–660, Mauvais &gt; 660)</p>
-          <div class="chart-empty"></div>
-        </div>
-      </div>
-    </section>
+<button class="nav-item" data-page="alertes">
+△ Alertes
+</button>
 
-    <!-- ================= ALERTES ================= -->
-    <section class="view hidden" id="view-alertes">
-      <div class="alert-stat-grid">
-        <div class="alert-stat-card critical">
-          <div class="alert-stat-value">0</div>
-          <div class="alert-stat-label">Critiques</div>
-        </div>
-        <div class="alert-stat-card warning">
-          <div class="alert-stat-value">0</div>
-          <div class="alert-stat-label">Attention</div>
-        </div>
-        <div class="alert-stat-card ok">
-          <div class="alert-stat-value">0</div>
-          <div class="alert-stat-label">Total conservé</div>
-        </div>
-      </div>
 
-      <div class="card">
-        <h3>Journal des alertes</h3>
-        <p class="muted">Générées automatiquement dès qu'un capteur franchit un seuil.</p>
-      </div>
-    </section>
+<div class="connexion">
 
-  </main>
+<span id="etatConnexion">
+🔴 Hors ligne
+</span>
+
 </div>
 
-<script>
-// ============================================================
-// VitalAir — front-end statique (aucune connexion à un backend)
-// Gère uniquement la navigation entre onglets et l'horloge.
-// ============================================================
 
-const PAGES = {
-  accueil: { title: "Accueil", subtitle: "Vue d'ensemble du réseau de capteurs de qualité de l'air — maquette 5 salles." },
-  dashboard: { title: "Dashboard", subtitle: "Valeurs en direct des capteurs pour chaque salle." },
-  historique: { title: "Historique", subtitle: "Évolution des mesures dans le temps, salle par salle." },
-  alertes: { title: "Alertes", subtitle: "Journal des dépassements de seuils détectés automatiquement." },
+</aside>
+
+
+
+<main class="main">
+
+
+<h1 id="titre">
+Accueil
+</h1>
+
+<p>
+Surveillance qualité de l'air avec ESP32 et Firebase
+</p>
+
+
+
+<section id="accueil">
+
+<div class="cards">
+
+
+<div class="card">
+<h3>Température</h3>
+<p id="temperature">-- °C</p>
+</div>
+
+
+<div class="card">
+<h3>Humidité</h3>
+<p id="humidite">-- %</p>
+</div>
+
+
+<div class="card">
+<h3>MQ135</h3>
+<p id="mq135">--</p>
+</div>
+
+
+<div class="card">
+<h3>Connexion</h3>
+<p id="etat">--</p>
+</div>
+
+
+</div>
+
+
+</section>
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="cache">
+
+<h2>Dashboard temps réel</h2>
+
+<div class="card">
+
+<h3>Données reçues depuis Firebase</h3>
+
+<p id="donnees">
+En attente des capteurs ESP32...
+</p>
+
+</div>
+
+</section>
+
+
+
+
+<!-- HISTORIQUE -->
+
+<section id="historique" class="cache">
+
+<h2>Historique des mesures</h2>
+
+<div class="card">
+
+<p>
+Les valeurs seront enregistrées automatiquement depuis Firebase.
+</p>
+
+</div>
+
+</section>
+
+
+
+
+
+<!-- ALERTES -->
+
+<section id="alertes" class="cache">
+
+<h2>Alertes qualité d'air</h2>
+
+
+<div class="card">
+
+<p id="alertesTexte">
+Aucune alerte détectée.
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+</main>
+
+</div>
+
+
+
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+
+// Import Firebase
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import { getDatabase, ref, onValue } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+
+// Configuration Firebase
+
+const firebaseConfig = {
+
+
+apiKey: "AIzaSyAsezgJt8_qaiuezZtm6JDdaACYLwvfrTM",
+
+
+authDomain: "esp32-capteurs.firebaseapp.com",
+
+
+databaseURL: "https://esp32-capteurs-default-rtdb.firebaseio.com",
+
+
+projectId: "esp32-capteurs",
+
+
+storageBucket: "esp32-capteurs.firebasestorage.app",
+
+
+messagingSenderId: "731684665970",
+
+
+appId: "1:731684665970:web:a7cd2bf4e0563bf13520eb"
+
+
 };
 
-document.querySelectorAll(".nav-item").forEach((btn) => {
-  btn.addEventListener("click", () => showView(btn.dataset.view));
+
+
+
+// Initialisation Firebase
+
+const app = initializeApp(firebaseConfig);
+
+
+const database = getDatabase(app);
+
+
+
+
+// Navigation entre les pages
+
+
+const boutons = document.querySelectorAll(".nav-item");
+
+
+boutons.forEach(btn=>{
+
+
+btn.addEventListener("click",()=>{
+
+
+const page = btn.dataset.page;
+
+
+
+document.querySelectorAll("section")
+.forEach(section=>{
+
+section.classList.add("cache");
+
 });
 
-function showView(name) {
-  document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b.dataset.view === name));
-  document.querySelectorAll(".view").forEach((v) => v.classList.add("hidden"));
-  document.getElementById(`view-${name}`).classList.remove("hidden");
-  document.getElementById("pageTitle").textContent = PAGES[name].title;
-  document.getElementById("pageSubtitle").textContent = PAGES[name].subtitle;
+
+
+document.getElementById(page)
+.classList.remove("cache");
+
+
+
+document.getElementById("titre")
+.textContent = btn.textContent;
+
+
+
+boutons.forEach(b=>{
+
+b.classList.remove("active");
+
+});
+
+
+btn.classList.add("active");
+
+
+
+});
+
+
+});
+
+
+
+
+// Lecture Firebase
+
+const capteurs = ref(database,"capteurs");
+
+
+
+onValue(capteurs,(snapshot)=>{
+
+
+const data = snapshot.val();
+
+
+
+console.log("Firebase :",data);
+
+
+
+if(data){
+
+
+document.getElementById("etatConnexion")
+.innerHTML="🟢 Connecté Firebase";
+
+
+
+document.getElementById("etat")
+.textContent="En ligne";
+
+
+
+if(data.temperature){
+
+document.getElementById("temperature")
+.textContent=data.temperature+" °C";
+
 }
 
-// ---------- Horloge ----------
-function tickClock() {
-  const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleTimeString("fr-FR", { hour12: false });
+
+
+if(data.humidite){
+
+document.getElementById("humidite")
+.textContent=data.humidite+" %";
+
 }
-setInterval(tickClock, 1000);
-tickClock();
+
+
+
+if(data.mq135){
+
+document.getElementById("mq135")
+.textContent=data.mq135;
+
+}
+
+
+
+document.getElementById("donnees")
+.textContent=
+JSON.stringify(data,null,2);
+
+
+
+}
+
+
+
+});
+// HORLOGE
+
+function horloge(){
+
+const maintenant = new Date();
+
+document.title =
+"VitalAir - " + maintenant.toLocaleTimeString("fr-FR");
+
+}
+
+
+setInterval(horloge,1000);
+
+horloge();
+
+
+
 </script>
+
+
 </body>
+
 </html>
