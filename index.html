@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VitalAir - Réseau capteurs Hôpital</title>
+<title>VitalAir - Surveillance qualité air hôpital</title>
 
 <style>
 
 :root{
 --vert:#0e3a32;
+--vert2:#154a40;
 --accent:#1f9d7c;
 --fond:#eef1ee;
 --blanc:#ffffff;
 --texte:#14201c;
 --gris:#6b7a74;
 --rouge:#d64545;
+--orange:#d98a2b;
+--vertok:#2f9e63;
 }
 
 
@@ -28,7 +32,7 @@ box-sizing:border-box;
 body{
 
 margin:0;
-font-family:Arial, sans-serif;
+font-family:"Segoe UI",Arial,sans-serif;
 background:var(--fond);
 color:var(--texte);
 
@@ -45,7 +49,7 @@ min-height:100vh;
 
 
 
-/* MENU */
+/* MENU LATERAL */
 
 .sidebar{
 
@@ -53,21 +57,23 @@ width:240px;
 background:var(--vert);
 color:white;
 padding:20px;
+}
+
+
+.logo{
+
+font-size:22px;
+font-weight:bold;
+margin-bottom:5px;
 
 }
 
 
-.sidebar h2{
+.subtitle{
 
-margin-top:0;
-
-}
-
-
-.sidebar p{
-
+font-size:12px;
 color:#bcd8cf;
-font-size:13px;
+margin-bottom:25px;
 
 }
 
@@ -77,7 +83,7 @@ font-size:13px;
 
 width:100%;
 padding:12px;
-margin:5px 0;
+margin-bottom:8px;
 border:none;
 border-radius:8px;
 background:transparent;
@@ -93,19 +99,18 @@ font-size:15px;
 .nav-item:hover,
 .nav-item.active{
 
-background:#154a40;
+background:var(--vert2);
 
 }
 
 
 
-.connexion{
+.status{
 
 margin-top:40px;
 font-size:14px;
 
 }
-
 
 
 
@@ -119,25 +124,45 @@ padding:30px;
 }
 
 
-.main h1{
 
-margin-top:0;
+header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
 
 }
 
 
 
+header h1{
 
-/* CARTES */
+margin:0;
+
+}
+
+
+
+.clock{
+
+background:white;
+padding:8px 15px;
+border-radius:20px;
+
+}
+
+
+
+/* CARTES GENERALES */
 
 .cards{
 
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:20px;
+gap:15px;
+margin-top:25px;
 
 }
-
 
 
 .card{
@@ -145,21 +170,20 @@ gap:20px;
 background:white;
 border-radius:14px;
 padding:20px;
-box-shadow:0 2px 5px #ccc;
+box-shadow:0 2px 5px #ddd;
 
 }
-
 
 
 .card h3{
 
-color:var(--gris);
 font-size:14px;
+color:var(--gris);
 
 }
 
 
-.card p{
+.value{
 
 font-size:30px;
 font-weight:bold;
@@ -169,9 +193,17 @@ color:var(--accent);
 
 
 
+
 /* PAGES */
 
-.cache{
+.page{
+
+margin-top:20px;
+
+}
+
+
+.hidden{
 
 display:none;
 
@@ -179,18 +211,7 @@ display:none;
 
 
 
-#donnees{
-
-background:white;
-padding:20px;
-border-radius:12px;
-
-}
-
-
-
-
-@media(max-width:800px){
+@media(max-width:900px){
 
 .app{
 
@@ -212,7 +233,6 @@ grid-template-columns:1fr;
 
 }
 
-
 }
 
 
@@ -229,12 +249,17 @@ grid-template-columns:1fr;
 
 <aside class="sidebar">
 
-<h2>💚 VitalAir</h2>
 
-<p>
-RÉSEAU CAPTEURS<br>
-HÔPITAL
-</p>
+<div class="logo">
+💚 VitalAir
+</div>
+
+
+<div class="subtitle">
+RÉSEAU DE CAPTEURS<br>
+QUALITÉ DE L'AIR - HÔPITAL
+</div>
+
 
 
 <button class="nav-item active" data-page="accueil">
@@ -257,12 +282,9 @@ HÔPITAL
 </button>
 
 
-<div class="connexion">
 
-<span id="etatConnexion">
+<div class="status" id="connexion">
 🔴 Hors ligne
-</span>
-
 </div>
 
 
@@ -273,125 +295,307 @@ HÔPITAL
 <main class="main">
 
 
+<header>
+
+<div>
+
 <h1 id="titre">
 Accueil
 </h1>
 
 <p>
-Surveillance qualité de l'air avec ESP32 et Firebase
+Surveillance ESP32 + Firebase
 </p>
 
+</div>
 
 
-<section id="accueil">
+<div class="clock" id="heure">
+--:--:--
+
+</div>
+
+
+</header>
+<!-- ================= ACCUEIL ================= -->
+
+<section id="accueil" class="page">
+
 
 <div class="cards">
 
 
 <div class="card">
-<h3>Température</h3>
-<p id="temperature">-- °C</p>
+<h3>Salles surveillées</h3>
+<div class="value">05</div>
 </div>
+
 
 
 <div class="card">
-<h3>Humidité</h3>
-<p id="humidite">-- %</p>
+<h3>Capteurs actifs</h3>
+<div class="value" id="capteursActifs">00</div>
 </div>
+
 
 
 <div class="card">
-<h3>MQ135</h3>
-<p id="mq135">--</p>
+<h3>État réseau</h3>
+<div class="value" id="etatReseau">--</div>
 </div>
+
 
 
 <div class="card">
-<h3>Connexion</h3>
-<p id="etat">--</p>
+<h3>Alertes</h3>
+<div class="value" id="nombreAlertes">0</div>
 </div>
+
 
 
 </div>
 
 
 </section>
-<!-- DASHBOARD -->
 
-<section id="dashboard" class="cache">
 
-<h2>Dashboard temps réel</h2>
+
+
+
+
+<!-- ================= DASHBOARD 5 SALLES ================= -->
+
+
+<section id="dashboard" class="page hidden">
+
+
+<h2>Dashboard des salles</h2>
+
+
+
+<div class="cards">
+
+
 
 <div class="card">
 
-<h3>Données reçues depuis Firebase</h3>
+<h3>🏥 Salle 1</h3>
 
-<p id="donnees">
-En attente des capteurs ESP32...
-</p>
+<p>Température</p>
+<div class="value" id="temp1">-- °C</div>
+
+
+<p>Humidité</p>
+<div class="value" id="hum1">-- %</div>
+
+
+<p>MQ135</p>
+<div class="value" id="mq1">--</div>
+
 
 </div>
 
+
+
+
+
+<div class="card">
+
+<h3>🏥 Salle 2</h3>
+
+<p>Température</p>
+<div class="value" id="temp2">-- °C</div>
+
+
+<p>Humidité</p>
+<div class="value" id="hum2">-- %</div>
+
+
+<p>MQ135</p>
+<div class="value" id="mq2">--</div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>🏥 Salle 3</h3>
+
+<p>Température</p>
+<div class="value" id="temp3">-- °C</div>
+
+
+<p>Humidité</p>
+<div class="value" id="hum3">-- %</div>
+
+
+<p>MQ135</p>
+<div class="value" id="mq3">--</div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>🏥 Salle 4</h3>
+
+<p>Température</p>
+<div class="value" id="temp4">-- °C</div>
+
+
+<p>Humidité</p>
+<div class="value" id="hum4">-- %</div>
+
+
+<p>MQ135</p>
+<div class="value" id="mq4">--</div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>🏥 Salle 5</h3>
+
+<p>Température</p>
+<div class="value" id="temp5">-- °C</div>
+
+
+<p>Humidité</p>
+<div class="value" id="hum5">-- %</div>
+
+
+<p>MQ135</p>
+<div class="value" id="mq5">--</div>
+
+
+</div>
+
+
+
+</div>
+
+
 </section>
+<!-- ================= HISTORIQUE ================= -->
 
+<section id="historique" class="page hidden">
 
-
-
-<!-- HISTORIQUE -->
-
-<section id="historique" class="cache">
 
 <h2>Historique des mesures</h2>
 
+
 <div class="card">
+
 
 <p>
-Les valeurs seront enregistrées automatiquement depuis Firebase.
+Les données reçues depuis Firebase peuvent être téléchargées au format CSV.
 </p>
+
+
+<button id="downloadCSV">
+
+⬇️ Télécharger l'historique CSV
+
+</button>
+
+
 
 </div>
 
-</section>
-
-
-
-
-
-<!-- ALERTES -->
-
-<section id="alertes" class="cache">
-
-<h2>Alertes qualité d'air</h2>
 
 
 <div class="card">
 
-<p id="alertesTexte">
-Aucune alerte détectée.
-</p>
+
+<table border="1" width="100%" id="tableHistorique">
+
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Heure</th>
+<th>Salle</th>
+<th>Température</th>
+<th>Humidité</th>
+<th>MQ135</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="historiqueBody">
+
+
+</tbody>
+
+
+</table>
+
 
 
 </div>
 
 
 </section>
+
+
+
+
+
+
+<!-- ================= ALERTES ================= -->
+
+
+<section id="alertes" class="page hidden">
+
+
+<h2>Alertes qualité de l'air</h2>
+
+
+
+<div class="card">
+
+
+<p id="messageAlerte">
+
+Aucune alerte détectée.
+
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
 
 
 
 </main>
 
 </div>
-
-
-
-
-
-<!-- FIREBASE -->
-
 <script type="module">
 
+// ================= FIREBASE =================
 
-// Import Firebase
 
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -407,88 +611,59 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
 
-
 apiKey: "AIzaSyAsezgJt8_qaiuezZtm6JDdaACYLwvfrTM",
-
 
 authDomain: "esp32-capteurs.firebaseapp.com",
 
-
 databaseURL: "https://esp32-capteurs-default-rtdb.firebaseio.com",
-
 
 projectId: "esp32-capteurs",
 
-
 storageBucket: "esp32-capteurs.firebasestorage.app",
-
 
 messagingSenderId: "731684665970",
 
-
 appId: "1:731684665970:web:a7cd2bf4e0563bf13520eb"
-
 
 };
 
 
 
-
-// Initialisation Firebase
-
 const app = initializeApp(firebaseConfig);
-
 
 const database = getDatabase(app);
 
 
 
 
-// Navigation entre les pages
+// ================= NAVIGATION =================
 
 
-const boutons = document.querySelectorAll(".nav-item");
-
-
-boutons.forEach(btn=>{
+document.querySelectorAll(".nav-item").forEach(btn=>{
 
 
 btn.addEventListener("click",()=>{
 
 
-const page = btn.dataset.page;
+document.querySelectorAll(".page")
+.forEach(page=>page.classList.add("hidden"));
+
+
+document.getElementById(btn.dataset.page)
+.classList.remove("hidden");
 
 
 
-document.querySelectorAll("section")
-.forEach(section=>{
-
-section.classList.add("cache");
-
-});
-
-
-
-document.getElementById(page)
-.classList.remove("cache");
-
-
-
-document.getElementById("titre")
-.textContent = btn.textContent;
-
-
-
-boutons.forEach(b=>{
-
-b.classList.remove("active");
-
-});
-
+document.querySelectorAll(".nav-item")
+.forEach(b=>b.classList.remove("active"));
 
 btn.classList.add("active");
 
 
+document.getElementById("titre").textContent =
+btn.textContent;
+
+
 
 });
 
@@ -498,66 +673,111 @@ btn.classList.add("active");
 
 
 
-// Lecture Firebase
-
-const capteurs = ref(database,"capteurs");
+// ================= HISTORIQUE =================
 
 
+let historique = [];
 
-onValue(capteurs,(snapshot)=>{
+
+
+
+// ================= LECTURE FIREBASE =================
+
+
+const capteursRef = ref(database,"capteurs");
+
+
+
+onValue(capteursRef,(snapshot)=>{
 
 
 const data = snapshot.val();
 
 
 
-console.log("Firebase :",data);
-
-
-
 if(data){
 
 
-document.getElementById("etatConnexion")
-.innerHTML="🟢 Connecté Firebase";
+document.getElementById("connexion").innerHTML =
+"🟢 Connecté Firebase";
 
 
 
-document.getElementById("etat")
-.textContent="En ligne";
+let compteur = 0;
 
 
 
-if(data.temperature){
+for(let i=1;i<=5;i++){
 
-document.getElementById("temperature")
-.textContent=data.temperature+" °C";
+
+let salle = data["salle"+i];
+
+
+
+if(salle){
+
+
+compteur += 4;
+
+
+
+document.getElementById("temp"+i).textContent =
+(salle.temperature ?? "--") + " °C";
+
+
+
+document.getElementById("hum"+i).textContent =
+(salle.humidite ?? "--") + " %";
+
+
+
+document.getElementById("mq"+i).textContent =
+salle.mq135 ?? "--";
+
+
+
+
+
+let maintenant = new Date();
+
+
+
+historique.push({
+
+date: maintenant.toLocaleDateString(),
+
+heure: maintenant.toLocaleTimeString(),
+
+salle:"Salle "+i,
+
+temperature:salle.temperature ?? "",
+
+humidite:salle.humidite ?? "",
+
+mq135:salle.mq135 ?? ""
+
+});
+
+
+
+ajouterHistoriqueTableau();
+
 
 }
 
 
 
-if(data.humidite){
-
-document.getElementById("humidite")
-.textContent=data.humidite+" %";
-
 }
 
 
 
-if(data.mq135){
-
-document.getElementById("mq135")
-.textContent=data.mq135;
-
-}
+document.getElementById("capteursActifs")
+.textContent = compteur;
 
 
 
-document.getElementById("donnees")
-.textContent=
-JSON.stringify(data,null,2);
+document.getElementById("etatReseau")
+.textContent="OK";
 
 
 
@@ -566,21 +786,123 @@ JSON.stringify(data,null,2);
 
 
 });
-// HORLOGE
 
-function horloge(){
 
-const maintenant = new Date();
 
-document.title =
-"VitalAir - " + maintenant.toLocaleTimeString("fr-FR");
+
+
+
+// ================= TABLE HISTORIQUE =================
+
+
+
+function ajouterHistoriqueTableau(){
+
+
+let tbody =
+document.getElementById("historiqueBody");
+
+
+tbody.innerHTML="";
+
+
+
+historique.slice(-20).forEach(ligne=>{
+
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${ligne.date}</td>
+
+<td>${ligne.heure}</td>
+
+<td>${ligne.salle}</td>
+
+<td>${ligne.temperature} °C</td>
+
+<td>${ligne.humidite} %</td>
+
+<td>${ligne.mq135}</td>
+
+</tr>
+
+`;
+
+
+});
+
 
 }
 
 
-setInterval(horloge,1000);
 
-horloge();
+
+
+// ================= EXPORT CSV =================
+
+
+document.getElementById("downloadCSV")
+.addEventListener("click",()=>{
+
+
+let csv = 
+"Date,Heure,Salle,Temperature,Humidite,MQ135\n";
+
+
+
+historique.forEach(ligne=>{
+
+
+csv +=
+`${ligne.date},${ligne.heure},${ligne.salle},${ligne.temperature},${ligne.humidite},${ligne.mq135}\n`;
+
+
+
+});
+
+
+
+let fichier = new Blob([csv],
+{type:"text/csv"});
+
+
+
+let lien = document.createElement("a");
+
+lien.href =
+URL.createObjectURL(fichier);
+
+
+
+lien.download =
+"historique_vitalair.csv";
+
+
+
+lien.click();
+
+
+
+});
+
+
+
+
+
+// ================= HORLOGE =================
+
+
+setInterval(()=>{
+
+
+document.getElementById("heure").textContent =
+
+new Date().toLocaleTimeString("fr-FR");
+
+
+},1000);
 
 
 
