@@ -1619,9 +1619,14 @@ carte.classList.remove(
 
 
 
-let mq =
-Number(salle.mq135);
+let mq = parseFloat(salle.mq135);
 
+console.log("Valeur MQ135 reçue Firebase :", salle.mq135);
+console.log("Valeur MQ135 convertie :", mq);
+
+if(isNaN(mq)){
+    mq = 0;
+}
 
 
 if(mq<300){
@@ -1703,8 +1708,17 @@ document.getElementById("capteursActifs")
 if(nombreSalle>0){
 
 
+if(nombreSalle > 0){
+
 moyenneAir =
-Math.round(moyenneAir/nombreSalle);
+Math.round(moyenneAir / nombreSalle);
+
+}
+else{
+
+moyenneAir = 0;
+
+}
 
 
 
